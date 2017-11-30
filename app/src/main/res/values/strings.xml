@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Test_appsgeyser</string>
+    <string name="new_text">Новый текст</string>
+    <string name="history">История</string>
+
+    <string name="edittext_hint">Введите текст</string>
+</resources>
