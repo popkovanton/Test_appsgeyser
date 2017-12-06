@@ -74,7 +74,7 @@ public class NewTextFragment extends Fragment implements DataResultReceiver.Rece
     }
 
     private void request() {
-        DataResultReceiver dataResultReceiver = new DataResultReceiver(new Handler());
+        dataResultReceiver = new DataResultReceiver(new Handler());
         dataResultReceiver.setReceiver(this);
         String text = String.valueOf(editText.getText());
         Intent intent = new Intent(getContext(), RequestService.class);

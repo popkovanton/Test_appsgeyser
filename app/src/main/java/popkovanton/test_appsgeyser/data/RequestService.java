@@ -1,5 +1,6 @@
 package popkovanton.test_appsgeyser.data;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +19,6 @@ import java.util.Map;
 import popkovanton.test_appsgeyser.Constants;
 import popkovanton.test_appsgeyser.MainActivity;
 import popkovanton.test_appsgeyser.fragment.HistoryFragment;
-import popkovanton.test_appsgeyser.fragment.NewTextFragment;
-import popkovanton.test_appsgeyser.data.DataResultReceiver;
 
 
 //Данный класс выполняет ресурсоемкие действия в фоне.
@@ -104,6 +103,7 @@ public class RequestService extends IntentService {
     }
 
 
+    @SuppressLint("RestrictedApi")
     private void sendResult(String language) {
         Bundle bundle = new Bundle();
         bundle.putString(LANGUAGE, language);

@@ -9,6 +9,7 @@ import android.support.v4.os.ResultReceiver;
 public class DataResultReceiver extends ResultReceiver {
     private Receiver receiver;
 
+    @SuppressLint("RestrictedApi")
     public DataResultReceiver(Handler handler) {
         super(handler);
     }
@@ -24,7 +25,11 @@ public class DataResultReceiver extends ResultReceiver {
     @Override
     protected void onReceiveResult(int resultCode, Bundle resultData) {
         if (receiver != null) {
-            receiver.onReceiveResult(resultCode, resultData);
+            try {
+                receiver.onReceiveResult(resultCode, resultData);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
