@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
-
             // Применяем все изменения
             ft.commit();
         }
@@ -100,6 +99,5 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
-
 
 }

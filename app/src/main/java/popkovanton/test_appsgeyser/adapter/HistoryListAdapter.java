@@ -27,9 +27,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.history_list_element, parent, false);
-        //TextView text = v.findViewById(R.id.rvTextElement);
-        //TextView language = v.findViewById(R.id.rvLanguageElement);
-
         return new HistoryViewHolder(v);
     }
 

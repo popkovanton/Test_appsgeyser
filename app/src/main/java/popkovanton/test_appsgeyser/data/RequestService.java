@@ -15,9 +15,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import popkovanton.test_appsgeyser.Constants;
 import popkovanton.test_appsgeyser.MainActivity;
 import popkovanton.test_appsgeyser.fragment.HistoryFragment;
 import popkovanton.test_appsgeyser.fragment.NewTextFragment;
+import popkovanton.test_appsgeyser.data.DataResultReceiver;
 
 
 //Данный класс выполняет ресурсоемкие действия в фоне.
@@ -25,8 +27,7 @@ import popkovanton.test_appsgeyser.fragment.NewTextFragment;
 public class RequestService extends IntentService {
 
     public static final String LANGUAGE = "language";
-    private final static String API_KEY = "4978e60252ae102dfe1341146bb8cc3ec4bbbd78";
-    private final static String GOOGLE_URL = "https://www.google.ru/";
+
     private String text;
     private String language;
     private ResultReceiver resultReceiver;
@@ -35,12 +36,11 @@ public class RequestService extends IntentService {
         super("RequestService");
     }
 
-
     @Override
     protected void onHandleIntent(Intent intent) {
         language = null;
-        resultReceiver = intent.getParcelableExtra(DataResultReceiver.RECEIVER);
-        text = intent.getStringExtra(NewTextFragment.TEXT);
+        resultReceiver = intent.getParcelableExtra(Constants.RECEIVER);
+        text = intent.getStringExtra(Constants.TEXT);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) != ' ') {
@@ -51,23 +51,21 @@ public class RequestService extends IntentService {
         }
         String formattedText = String.valueOf(stringBuilder);
         languageDetect(formattedText);
-        //writeResult();
-        //sendResult(language);
     }
 
     private void languageDetect(final String inputText) {
         if (checkConnection()) {
             final AlchemyLanguage service = new AlchemyLanguage();
-            service.setApiKey(API_KEY);
+            service.setApiKey(Constants.API_KEY);
 
             final Map<String, Object> params = new HashMap<>();
             params.put(AlchemyLanguage.TEXT, inputText);
 
             final Language language;
             try {
-                //Запрос на сервер. Возможны исключительные ситуации
+                //запрос на сервер
                 language = service.getLanguage(params).execute();
-                //Распознынный язык
+                //распознанный язык
                 final String detectLanguage = language.getLanguage();
                 this.language = detectLanguage;
                 writeResult();
@@ -80,7 +78,7 @@ public class RequestService extends IntentService {
 
     private boolean checkConnection() {
         try {
-            final URL httpsLink = new URL(GOOGLE_URL);
+            final URL httpsLink = new URL(Constants.GOOGLE_URL);
             final HttpURLConnection httpURLConnection
                     = (HttpURLConnection) httpsLink.openConnection();
             httpURLConnection.connect();
@@ -109,6 +107,6 @@ public class RequestService extends IntentService {
     private void sendResult(String language) {
         Bundle bundle = new Bundle();
         bundle.putString(LANGUAGE, language);
-        resultReceiver.send(DataResultReceiver.RESULT, bundle);
+        resultReceiver.send(Constants.RESULT, bundle);
     }
 }

@@ -7,13 +7,6 @@ import android.support.v4.os.ResultReceiver;
 
 @SuppressLint("ParcelCreator")
 public class DataResultReceiver extends ResultReceiver {
-    public static final String RECEIVER = "receiver";
-    public static final int RESULT = 1;
-
-    public interface Receiver {
-        void onReceiveResult(int resultCode, Bundle data);
-    }
-
     private Receiver receiver;
 
     public DataResultReceiver(Handler handler) {
@@ -22,6 +15,10 @@ public class DataResultReceiver extends ResultReceiver {
 
     public void setReceiver(Receiver receiver) {
         this.receiver = receiver;
+    }
+
+    public interface Receiver {
+        void onReceiveResult(int resultCode, Bundle data);
     }
 
     @Override
