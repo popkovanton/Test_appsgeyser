@@ -1,9 +1,8 @@
 package popkovanton.test_appsgeyser.data;
 
-import java.io.Serializable;
 
 //в дальнейшем будет принимать данные со стороннего сервиса
-public class ModelHistoryElement implements Serializable {
+public class ModelHistoryElement {
 
     private String text;
     private String language;

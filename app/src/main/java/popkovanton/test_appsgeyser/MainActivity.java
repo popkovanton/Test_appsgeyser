@@ -11,12 +11,23 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import popkovanton.test_appsgeyser.data.ModelHistoryElement;
+import popkovanton.test_appsgeyser.database.DBHelper;
 import popkovanton.test_appsgeyser.fragment.HistoryFragment;
 import popkovanton.test_appsgeyser.fragment.NewTextFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static ArrayList<ModelHistoryElement> arrayHistoryElements = new ArrayList<>();
     private Toolbar toolBar;
+
+    private HistoryFragment historyFragment = new HistoryFragment();
+    private NewTextFragment newTextFragment = new NewTextFragment();
+
+    public static DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
         initToolbar();
         initNavigationView();
+        initDB();
 
 //выбор фрагмента, для загрузки на стартовый экран
         displaySelectedScreen(R.id.newTextNaviItem);
     }
 
+    // инициализация тулбара
     private void initToolbar() {
         toolBar = (Toolbar) findViewById(R.id.toolbar);
         if (toolBar != null) {
@@ -53,16 +66,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+// инициализация базы данных
+    private void initDB() {
+        dbHelper = new DBHelper(this);
+        if (arrayHistoryElements.size() == 0) {
+            arrayHistoryElements = dbHelper.query().getHistoryItems();
+        }
+        dbHelper.close();
+    }
+
     private void displaySelectedScreen(int itemId) {
 
         Fragment fragment = null;
 
         switch (itemId) {
             case R.id.newTextNaviItem:
-                fragment = new NewTextFragment();
+                fragment = newTextFragment;
                 break;
             case R.id.historyNaviItem:
-                fragment = new HistoryFragment();
+                fragment = historyFragment;
                 break;
         }
 
@@ -70,10 +92,14 @@ public class MainActivity extends AppCompatActivity {
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
+
+            // Применяем все изменения
             ft.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+
+
 }

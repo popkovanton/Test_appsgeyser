@@ -8,68 +8,55 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import popkovanton.test_appsgeyser.R;
 import popkovanton.test_appsgeyser.data.ModelHistoryElement;
-import popkovanton.test_appsgeyser.fragment.HistoryFragment;
 
-public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryViewHolder> {
 
-    List<ModelHistoryElement> items = new ArrayList<>();
+    private ArrayList<ModelHistoryElement> textLanguages;
 
-    HistoryFragment historyFragment;
 
-    public HistoryListAdapter(){
+    public HistoryListAdapter(ArrayList<ModelHistoryElement> textLanguages) {
+        this.textLanguages = textLanguages;
     }
 
-    public HistoryListAdapter addHistoryListAdapter(ModelHistoryElement modelHistoryElement) { //обновить список айтемов
-        this.items.add(modelHistoryElement);
-        return new HistoryListAdapter(items);
-    }
-
-    public HistoryListAdapter(List<ModelHistoryElement> items) { //передача массива item'ов
-        this.items = items;
-    }
-
-
-    public void addItemHistory(ModelHistoryElement modelHistoryElement) { //добавляем элементы списка
-        items.add(modelHistoryElement);
-        notifyItemInserted(getItemCount() - 1);//сообщаем о добавлении нового элемента в список
-    }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.history_list_element, parent, false);
-        TextView text = v.findViewById(R.id.rvTextElement);
-        TextView language = v.findViewById(R.id.rvLanguageElement);
+        //TextView text = v.findViewById(R.id.rvTextElement);
+        //TextView language = v.findViewById(R.id.rvLanguageElement);
 
-        return new HistoryViewHolder(v, text, language);
+        return new HistoryViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) { //просечиваем значения на элемент
-        ModelHistoryElement item = items.get(position); //получаем элемент списка
-        HistoryViewHolder historyViewHolder = (HistoryViewHolder) holder;
-        historyViewHolder.text.setText(item.getText());
-        historyViewHolder.language.setText(item.getLanguage());
+    public void onBindViewHolder(HistoryViewHolder holder, int position) { //просечиваем значения на элемент
+        holder.item = textLanguages.get(position); //получаем элемент списка
+        holder.text.setText(textLanguages.get(position).getText());
+        holder.language.setText(textLanguages.get(position).getLanguage());
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return textLanguages.size();
     }
 
-    private class HistoryViewHolder extends RecyclerView.ViewHolder {
+
+    static class HistoryViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
         TextView text;
         TextView language;
+        ModelHistoryElement item;
 
-        public HistoryViewHolder(View itemView, TextView text, TextView language) {
+        public HistoryViewHolder(View itemView) {
             super(itemView);
-            this.text = text;
-            this.language = language;
+            this.itemView = itemView;
+            this.text = itemView.findViewById(R.id.rvTextElement);
+            this.language = itemView.findViewById(R.id.rvLanguageElement);
         }
     }
 }
