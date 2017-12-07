@@ -40,16 +40,7 @@ public class RequestService extends IntentService {
         language = null;
         resultReceiver = intent.getParcelableExtra(Constants.RECEIVER);
         text = intent.getStringExtra(Constants.TEXT);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) != ' ') {
-                stringBuilder.append(text.charAt(i));
-            } else {
-                stringBuilder.append("%20");
-            }
-        }
-        String formattedText = String.valueOf(stringBuilder);
-        languageDetect(formattedText);
+        languageDetect(text);
     }
 
     private void languageDetect(final String inputText) {
@@ -68,11 +59,12 @@ public class RequestService extends IntentService {
                 final String detectLanguage = language.getLanguage();
                 this.language = detectLanguage;
                 writeResult();
-                sendResult(detectLanguage);
+
             } catch (final BadRequestException e) {
                 e.printStackTrace();
             }
         }
+        sendResult(this.language);
     }
 
     private boolean checkConnection() {

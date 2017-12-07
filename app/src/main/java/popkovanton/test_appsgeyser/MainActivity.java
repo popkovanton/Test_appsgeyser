@@ -44,17 +44,16 @@ public class MainActivity extends AppCompatActivity {
 
     // инициализация тулбара
     private void initToolbar() {
-        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        toolBar = findViewById(R.id.toolbar);
         if (toolBar != null) {
             toolBar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
             setSupportActionBar(toolBar);
-            toolBar.setTitle(R.string.app_name);
         }
     }
 
     private void initNavigationView() {
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        NavigationView navigationView = findViewById(R.id.navigation);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @SuppressWarnings("StatementWithEmptyBody")
@@ -88,11 +87,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        //замена фрагмента по выбору списка меню
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
-            // Применяем все изменения
             ft.commit();
         }
 

@@ -4,6 +4,7 @@ package popkovanton.test_appsgeyser.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -55,6 +56,12 @@ public class NewTextFragment extends Fragment implements DataResultReceiver.Rece
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("New Text");
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Constants.RECEIVER, dataResultReceiver);
         super.onSaveInstanceState(outState);
@@ -93,7 +100,7 @@ public class NewTextFragment extends Fragment implements DataResultReceiver.Rece
             toast.show();
         } else {
             Toast toast = Toast.makeText(getContext(),
-                    "Проверьте соединение с интенетом", Toast.LENGTH_LONG);
+                    "Проверьте соединение с интернетом", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
